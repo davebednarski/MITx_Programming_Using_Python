@@ -10,25 +10,25 @@ class BinaryTree(object):
         self.rightBranch = None
         self.parent = None
 
-    def setLeftBranch(self, node):
+    def set_left_branch(self, node):
         self.leftBranch = node
 
-    def setRightBranch(self, node):
+    def set_right_branch(self, node):
         self.rightBranch = node
 
-    def setParent(self, parent):
+    def set_parent(self, parent):
         self.parent = parent
 
-    def getValue(self):
+    def get_value(self):
         return self.value
 
-    def getLeftBranch(self):
+    def get_left_branch(self):
         return self.leftBranch
 
-    def getRightBranch(self):
+    def get_right_branch(self):
         return self.rightBranch
 
-    def getParent(self):
+    def get_parent(self):
         return self.parent
 
     def __str__(self):
@@ -38,30 +38,30 @@ class BinaryTree(object):
 def dfs_binary(root, fcn):
     queue = [root]
     while len(queue) > 0:
-        print('at node ' + str(queue[0].getValue()))
+        print('at node ' + str(queue[0].get_value()))
         if fcn(queue[0]):
             return True
         else:
             temp = queue.pop(0)
-            if temp.getRightBranch():
-                queue.insert(0, temp.getRightBranch())
-            if temp.getLeftBranch():
-                queue.insert(0, temp.getLeftBranch())
+            if temp.get_right_branch():
+                queue.insert(0, temp.get_right_branch())
+            if temp.get_left_branch():
+                queue.insert(0, temp.get_left_branch())
     return False
 
 
 def bfs_binary(root, fcn):
     queue = [root]
     while len(queue) > 0:
-        print('at node ' + str(queue[0].getValue()))
+        print('at node ' + str(queue[0].get_value()))
         if fcn(queue[0]):
             return True
         else:
             temp = queue.pop(0)
-            if temp.getLeftBranch():
-                queue.append(temp.getLeftBranch())
-            if temp.getRightBranch():
-                queue.append(temp.getRightBranch())
+            if temp.get_left_branch():
+                queue.append(temp.get_left_branch())
+            if temp.get_right_branch():
+                queue.append(temp.get_right_branch())
     return False
 
 
@@ -72,12 +72,12 @@ def dfs_binary_ordered(root, fcn, ltFcn):
             return True
         elif ltFcn(queue[0]):
             temp = queue.pop(0)
-            if temp.getLeftBranch():
-                queue.insert(0, temp.getLeftBranch())
+            if temp.get_left_branch():
+                queue.insert(0, temp.get_left_branch())
         else:
             temp = queue.pop(0)
-            if temp.getRightBranch():
-                queue.insert(0, temp.getRightBranch())
+            if temp.get_right_branch():
+                queue.insert(0, temp.get_right_branch())
     return False
 
 
@@ -90,36 +90,36 @@ n6 = BinaryTree(6)
 n7 = BinaryTree(7)
 n3 = BinaryTree(3)
 
-n5.setLeftBranch(n2)
-n2.setParent(n5)
-n5.setRightBranch(n8)
-n8.setParent(n5)
-n2.setLeftBranch(n1)
-n1.setParent(n2)
-n2.setRightBranch(n4)
-n4.setParent(n2)
-n8.setLeftBranch(n6)
-n6.setParent(n8)
-n6.setRightBranch(n7)
-n7.setParent(n6)
-n4.setLeftBranch(n3)
-n3.setParent(n4)
+n5.set_left_branch(n2)
+n2.set_parent(n5)
+n5.set_right_branch(n8)
+n8.set_parent(n5)
+n2.set_left_branch(n1)
+n1.set_parent(n2)
+n2.set_right_branch(n4)
+n4.set_parent(n2)
+n8.set_left_branch(n6)
+n6.set_parent(n8)
+n6.set_right_branch(n7)
+n7.set_parent(n6)
+n4.set_left_branch(n3)
+n3.set_parent(n4)
 
 
 def find6(node):
-    return node.getValue() == 6
+    return node.get_value() == 6
 
 
 def find10(node):
-    return node.getValue() == 10
+    return node.get_value() == 10
 
 
 def find2(node):
-    return node.getValue() == 2
+    return node.get_value() == 2
 
 
 def lt6(node):
-    return node.getValue() > 6
+    return node.get_value() > 6
 
 
 # test examples
@@ -141,18 +141,18 @@ def dfs_binary_path(root, fcn):
             return trace_path(queue[0])
         else:
             temp = queue.pop(0)
-            if temp.getRightBranch():
-                queue.insert(0, temp.getRightBranch())
-            if temp.getLeftBranch():
-                queue.insert(0, temp.getLeftBranch())
+            if temp.get_right_branch():
+                queue.insert(0, temp.get_right_branch())
+            if temp.get_left_branch():
+                queue.insert(0, temp.get_left_branch())
     return False
 
 
 def trace_path(node):
-    if not node.getParent():
+    if not node.get_parent():
         return [node]
     else:
-        return [node] + trace_path(node.getParent())
+        return [node] + trace_path(node.get_parent())
 
 
 print('')
@@ -173,8 +173,8 @@ def build_d_tree(sofar, todo):
         withelt = build_d_tree(sofar + [todo[0]], todo[1:])
         withoutelt = build_d_tree(sofar, todo[1:])
         here = BinaryTree(sofar)
-        here.setLeftBranch(withelt)
-        here.setRightBranch(withoutelt)
+        here.set_left_branch(withelt)
+        here.set_right_branch(withoutelt)
         return here
 
 
@@ -184,18 +184,18 @@ def dfs_d_tree(root, valueFcn, constraintFcn):
     visited = 0
     while len(queue) > 0:
         visited += 1
-        if constraintFcn(queue[0].getValue()):
+        if constraintFcn(queue[0].get_value()):
             if best == None:
                 best = queue[0]
-                print(best.getValue())
-            elif valueFcn(queue[0].getValue()) > valueFcn(best.getValue()):
+                print(best.get_value())
+            elif valueFcn(queue[0].get_value()) > valueFcn(best.getValue()):
                 best = queue[0]
-                print(best.getValue())
+                print(best.get_value())
             temp = queue.pop(0)
-            if temp.getRightBranch():
-                queue.insert(0, temp.getRightBranch())
-            if temp.getLeftBranch():
-                queue.insert(0, temp.getLeftBranch())
+            if temp.get_right_branch():
+                queue.insert(0, temp.get_right_branch())
+            if temp.get_left_branch():
+                queue.insert(0, temp.get_left_branch())
         else:
             queue.pop(0)
     print('visited', visited)
@@ -208,18 +208,18 @@ def bfs_d_tree(root, valueFcn, constraintFcn):
     visited = 0
     while len(queue) > 0:
         visited += 1
-        if constraintFcn(queue[0].getValue()):
+        if constraintFcn(queue[0].get_value()):
             if best == None:
                 best = queue[0]
-                print(best.getValue())
-            elif valueFcn(queue[0].getValue()) > valueFcn(best.getValue()):
+                print(best.get_value())
+            elif valueFcn(queue[0].get_value()) > valueFcn(best.getValue()):
                 best = queue[0]
-                print(best.getValue())
+                print(best.get_value())
             temp = queue.pop(0)
-            if temp.getLeftBranch():
-                queue.append(temp.getLeftBranch())
-            if temp.getRightBranch():
-                queue.append(temp.getRightBranch())
+            if temp.get_left_branch():
+                queue.append(temp.get_left_branch())
+            if temp.get_right_branch():
+                queue.append(temp.get_right_branch())
         else:
             queue.pop(0)
     print('visited', visited)
@@ -269,21 +269,21 @@ def dfs_d_tree_good_enough(root, valueFcn, constraintFcn, stopFcn):
     visited = 0
     while len(stack) > 0:
         visited += 1
-        if constraintFcn(stack[0].getValue()):
+        if constraintFcn(stack[0].get_value()):
             if best == None:
                 best = stack[0]
-                print(best.getValue())
-            elif valueFcn(stack[0].getValue()) > valueFcn(best.getValue()):
+                print(best.get_value())
+            elif valueFcn(stack[0].get_value()) > valueFcn(best.getValue()):
                 best = stack[0]
-                print(best.getValue())
+                print(best.get_value())
             if stopFcn(best.getValue()):
                 print('visited', visited)
                 return best
             temp = stack.pop(0)
-            if temp.getRightBranch():
-                stack.insert(0, temp.getRightBranch())
-            if temp.getLeftBranch():
-                stack.insert(0, temp.getLeftBranch())
+            if temp.get_right_branch():
+                stack.insert(0, temp.get_right_branch())
+            if temp.get_left_branch():
+                stack.insert(0, temp.get_left_branch())
         else:
             stack.pop(0)
     print('visited', visited)
@@ -296,21 +296,21 @@ def bfs_d_tree_good_enough(root, valueFcn, constraintFcn, stopFcn):
     visited = 0
     while len(queue) > 0:
         visited += 1
-        if constraintFcn(queue[0].getValue()):
+        if constraintFcn(queue[0].get_value()):
             if best == None:
                 best = queue[0]
-                print(best.getValue())
-            elif valueFcn(queue[0].getValue()) > valueFcn(best.getValue()):
+                print(best.get_value())
+            elif valueFcn(queue[0].get_value()) > valueFcn(best.getValue()):
                 best = queue[0]
-                print(best.getValue())
+                print(best.get_value())
             if stopFcn(best.getValue()):
                 print('visited', visited)
                 return best
             temp = queue.pop(0)
-            if temp.getLeftBranch():
-                queue.append(temp.getLeftBranch())
-            if temp.getRightBranch():
-                queue.append(temp.getRightBranch())
+            if temp.get_left_branch():
+                queue.append(temp.get_left_branch())
+            if temp.get_right_branch():
+                queue.append(temp.get_right_branch())
         else:
             queue.pop(0)
     print('visited', visited)
@@ -367,24 +367,24 @@ def dfs_binary_no_loop(root, fcn):
     queue = [root]
     seen = []
     while len(queue) > 0:
-        print('at node ' + str(queue[0].getValue()))
+        print('at node ' + str(queue[0].get_value()))
         if fcn(queue[0]):
             return True
         else:
             temp = queue.pop(0)
             seen.append(temp)
-            if temp.getRightBranch():
-                if not temp.getRightBranch() in seen:
-                    queue.insert(0, temp.getRightBranch())
-            if temp.getLeftBranch():
-                if not temp.getLeftBranch() in seen:
-                    queue.insert(0, temp.getLeftBranch())
+            if temp.get_right_branch():
+                if not temp.get_right_branch() in seen:
+                    queue.insert(0, temp.get_right_branch())
+            if temp.get_left_branch():
+                if not temp.get_left_branch() in seen:
+                    queue.insert(0, temp.get_left_branch())
     return False
 
 
 # comment out
 
-n3.setLeftBranch(n5)
-n5.setParent(n3)
+n3.set_left_branch(n5)
+n5.set_parent(n3)
 
 # run DFSBinary(n5, find6)
