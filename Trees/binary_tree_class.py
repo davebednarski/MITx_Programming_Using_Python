@@ -35,7 +35,7 @@ class BinaryTree(object):
         return self.value
 
 
-def dfs_binary(root, fcn):
+def depth_first_binary(root, fcn):
     queue = [root]
     while len(queue) > 0:
         print('at node ' + str(queue[0].get_value()))
@@ -50,7 +50,7 @@ def dfs_binary(root, fcn):
     return False
 
 
-def bfs_binary(root, fcn):
+def breadth_first_binary(root, fcn):
     queue = [root]
     while len(queue) > 0:
         print('at node ' + str(queue[0].get_value()))
@@ -65,7 +65,7 @@ def bfs_binary(root, fcn):
     return False
 
 
-def dfs_binary_ordered(root, fcn, ltFcn):
+def depth_first_binary_ordered(root, fcn, ltFcn):
     queue = [root]
     while len(queue) > 0:
         if fcn(queue[0]):
@@ -124,17 +124,17 @@ def lt6(node):
 
 # test examples
 
-print('DFS')
-dfs_binary(n5, find6)
+print('Depth First Search')
+depth_first_binary(n5, find6)
 
 print('')
-print('BFS')
-bfs_binary(n5, find6)
+print('Breadth First Search')
+breadth_first_binary(n5, find6)
 
 
 # if we wanted to return the path that got to the goal, would need to modify
 
-def dfs_binary_path(root, fcn):
+def depth_first_binary_path(root, fcn):
     queue = [root]
     while len(queue) > 0:
         if fcn(queue[0]):
@@ -156,9 +156,10 @@ def trace_path(node):
 
 
 print('')
-print('DFS path')
-pathTo6 = dfs_binary_path(n5, find6)
-print([e.getValue() for e in pathTo6])
+print('Depth First Search path')
+pathTo6 = depth_first_binary_path(n5, find6)
+for e in pathTo6:
+    print(e.value)
 
 
 # make a decision tree
@@ -166,19 +167,19 @@ print([e.getValue() for e in pathTo6])
 # and then search
 
 
-def build_d_tree(sofar, todo):
+def build_decision_tree(sofar, todo):
     if len(todo) == 0:
         return BinaryTree(sofar)
     else:
-        withelt = build_d_tree(sofar + [todo[0]], todo[1:])
-        withoutelt = build_d_tree(sofar, todo[1:])
+        with_elt = build_decision_tree(sofar + [todo[0]], todo[1:])
+        without_elt = build_decision_tree(sofar, todo[1:])
         here = BinaryTree(sofar)
-        here.set_left_branch(withelt)
-        here.set_right_branch(withoutelt)
+        here.set_left_branch(with_elt)
+        here.set_right_branch(without_elt)
         return here
 
 
-def dfs_d_tree(root, valueFcn, constraintFcn):
+def depth_first_decision_tree(root, valueFcn, constraintFcn):
     queue = [root]
     best = None
     visited = 0
@@ -188,7 +189,7 @@ def dfs_d_tree(root, valueFcn, constraintFcn):
             if best == None:
                 best = queue[0]
                 print(best.get_value())
-            elif valueFcn(queue[0].get_value()) > valueFcn(best.getValue()):
+            elif valueFcn(queue[0].get_value()) > valueFcn(best.get_value()):
                 best = queue[0]
                 print(best.get_value())
             temp = queue.pop(0)
@@ -202,7 +203,7 @@ def dfs_d_tree(root, valueFcn, constraintFcn):
     return best
 
 
-def bfs_d_tree(root, valueFcn, constraintFcn):
+def breadth_first_decision_tree(root, valueFcn, constraintFcn):
     queue = [root]
     best = None
     visited = 0
@@ -212,7 +213,7 @@ def bfs_d_tree(root, valueFcn, constraintFcn):
             if best == None:
                 best = queue[0]
                 print(best.get_value())
-            elif valueFcn(queue[0].get_value()) > valueFcn(best.getValue()):
+            elif valueFcn(queue[0].get_value()) > valueFcn(best.get_value()):
                 best = queue[0]
                 print(best.get_value())
             temp = queue.pop(0)
@@ -231,7 +232,7 @@ b = [7, 2]
 c = [8, 4]
 d = [9, 5]
 
-treeTest = build_d_tree([], [a, b, c, d])
+treeTest = build_decision_tree([], [a, b, c, d])
 
 
 def sum_values(lst):
@@ -253,17 +254,17 @@ def weights_below_6(lst):
 
 
 print('')
-print('DFS decision tree')
-foobar = dfs_d_tree(treeTest, sum_values, weights_below_10)
-print(foobar.getValue())
+print('Depth First Search decision tree')
+foobar = depth_first_decision_tree(treeTest, sum_values, weights_below_10)
+print(foobar.get_value())
 
 print('')
-print('BFS decision tree')
-foobarnew = bfs_d_tree(treeTest, sum_values, weights_below_10)
-print(foobarnew.getValue())
+print('Breadth First Search decision tree')
+foobarNew = breadth_first_decision_tree(treeTest, sum_values, weights_below_10)
+print(foobarNew.get_value())
 
 
-def dfs_d_tree_good_enough(root, valueFcn, constraintFcn, stopFcn):
+def dfs_decision_tree_good_enough(root, valueFcn, constraintFcn, stopFcn):
     stack = [root]
     best = None
     visited = 0
@@ -273,10 +274,10 @@ def dfs_d_tree_good_enough(root, valueFcn, constraintFcn, stopFcn):
             if best == None:
                 best = stack[0]
                 print(best.get_value())
-            elif valueFcn(stack[0].get_value()) > valueFcn(best.getValue()):
+            elif valueFcn(stack[0].get_value()) > valueFcn(best.get_value()):
                 best = stack[0]
                 print(best.get_value())
-            if stopFcn(best.getValue()):
+            if stopFcn(best.get_value()):
                 print('visited', visited)
                 return best
             temp = stack.pop(0)
@@ -290,7 +291,7 @@ def dfs_d_tree_good_enough(root, valueFcn, constraintFcn, stopFcn):
     return best
 
 
-def bfs_d_tree_good_enough(root, valueFcn, constraintFcn, stopFcn):
+def bfs_decision_tree_good_enough(root, valueFcn, constraintFcn, stopFcn):
     queue = [root]
     best = None
     visited = 0
@@ -300,10 +301,10 @@ def bfs_d_tree_good_enough(root, valueFcn, constraintFcn, stopFcn):
             if best == None:
                 best = queue[0]
                 print(best.get_value())
-            elif valueFcn(queue[0].get_value()) > valueFcn(best.getValue()):
+            elif valueFcn(queue[0].get_value()) > valueFcn(best.get_value()):
                 best = queue[0]
                 print(best.get_value())
-            if stopFcn(best.getValue()):
+            if stopFcn(best.get_value()):
                 print('visited', visited)
                 return best
             temp = queue.pop(0)
@@ -322,16 +323,16 @@ def at_least_15(lst):
 
 
 print('')
-print('DFS decision tree good enough')
-foobar = dfs_d_tree_good_enough(treeTest, sum_values, weights_below_10,
+print('Depth First Search decision tree good enough')
+foobar = dfs_decision_tree_good_enough(treeTest, sum_values, weights_below_10,
                                 at_least_15)
-print(foobar.getValue())
+print(foobar.get_value())
 
 print('')
-print('BFS decision tree good enough')
-foobarnew = bfs_d_tree_good_enough(treeTest, sum_values, weights_below_10,
-                                   at_least_15)
-print(foobarnew.getValue())
+print('Breadth First Search decision tree good enough')
+foobarNew = bfs_decision_tree_good_enough(treeTest, sum_values, weights_below_10,
+                                          at_least_15)
+print(foobarNew.get_value())
 
 
 def dt_implicit(toConsider, avail):
