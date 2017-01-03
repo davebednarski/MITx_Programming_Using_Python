@@ -35,13 +35,16 @@ class BinaryTree(object):
         return self.value
 
 
+# Depth First search on binary tree
 def depth_first_binary(root, fcn):
+    # create a list
     queue = [root]
     while len(queue) > 0:
         print('at node ' + str(queue[0].get_value()))
         if fcn(queue[0]):
             return True
         else:
+            # last in, first out
             temp = queue.pop(0)
             if temp.get_right_branch():
                 queue.insert(0, temp.get_right_branch())
@@ -57,6 +60,7 @@ def breadth_first_binary(root, fcn):
         if fcn(queue[0]):
             return True
         else:
+            # last in, last out
             temp = queue.pop(0)
             if temp.get_left_branch():
                 queue.append(temp.get_left_branch())
@@ -80,7 +84,7 @@ def depth_first_binary_ordered(root, fcn, ltFcn):
                 queue.insert(0, temp.get_right_branch())
     return False
 
-
+#  Create the nodes
 n5 = BinaryTree(5)
 n2 = BinaryTree(2)
 n1 = BinaryTree(1)
@@ -90,6 +94,7 @@ n6 = BinaryTree(6)
 n7 = BinaryTree(7)
 n3 = BinaryTree(3)
 
+#  Create the branches
 n5.set_left_branch(n2)
 n2.set_parent(n5)
 n5.set_right_branch(n8)
@@ -125,10 +130,12 @@ def lt6(node):
 # test examples
 
 print('Depth First Search')
+print('Find 6 in tree')
 depth_first_binary(n5, find6)
 
 print('')
 print('Breadth First Search')
+print('Find 6 in tree')
 breadth_first_binary(n5, find6)
 
 
@@ -324,8 +331,7 @@ def at_least_15(lst):
 
 print('')
 print('Depth First Search decision tree good enough')
-foobar = dfs_decision_tree_good_enough(treeTest, sum_values, weights_below_10,
-                                at_least_15)
+foobar = dfs_decision_tree_good_enough(treeTest, sum_values, weights_below_10, at_least_15)
 print(foobar.get_value())
 
 print('')
